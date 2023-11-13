@@ -1,3 +1,5 @@
+"use client";
+
 import prisma from "@/lib/prisma"
 import { createCourse, readAllCourses } from "@/lib/data"
 import { NextRequest, NextResponse } from "next/server";
