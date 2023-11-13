@@ -1,11 +1,174 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+// Server Action
+model User {
+  id          String       @id @default(uuid())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  email       String       @unique
+  name        String
+  profile     Profile?
+  enrollments Enrollment[]
+  posts       Post[]
+  comments    Comment[]
+  reactions   Reaction[]
+}
+
+// Server Action
+model Profile {
+  id             String   @id @default(uuid())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  description    String
+  currentCompany String
+  currentRole    String
+  linkedinUrl    String
+  profilePicture String
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String   @unique
+}
+
+// API
+model Course {
+  id          String       @id @default(uuid())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  title       String
+  description String
+  color       String
+  type        String
+  modules     Module[]
+  cohorts     Cohort[]
+  enrollments Enrollment[]
+  posts       Post[]
+}
+
+// API
+model Module {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String
+  description String
+  order       Int
+  course      Course   @relation(fields: [courseId], references: [id])
+  courseId    String
+  classes     Class[]
+}
+
+// API
+model Class {
+  id          String     @id @default(uuid())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  title       String
+  description String
+  type        String
+  video       String?
+  content     String
+  order       Int
+  module      Module     @relation(fields: [moduleId], references: [id])
+  moduleId    String
+  schedules   Schedule[]
+}
+
+// API
+model Cohort {
+  id          String       @id @default(uuid())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  title       String
+  startDate   DateTime
+  endDate     DateTime
+  course      Course       @relation(fields: [courseId], references: [id])
+  courseId    String
+  schedule    Schedule[]
+  enrollments Enrollment[]
+}
+
+// API
+model Teacher {
+  id             String     @id @default(uuid())
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  name           String
+  currentCompany String
+  currentRole    String
+  linkedinUrl    String
+  profilePicture String
+  classes        Schedule[]
+}
+
+// API
+model Schedule {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  scheduleDate DateTime
+  classUrl     String
+  teacher      Teacher  @relation(fields: [teacherId], references: [id])
+  teacherId    String
+  cohort       Cohort   @relation(fields: [cohortId], references: [id])
+  cohortId     String
+  class        Class    @relation(fields: [classId], references: [id])
+  classId      String
+}
+
+// Server Action
+model Enrollment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String
+  cohort    Cohort   @relation(fields: [cohortId], references: [id])
+  cohortId  String
+}
+
+// Server Action
+model Post {
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  content   String
+  author    User       @relation(fields: [authorId], references: [id])
+  authorId  String
+  course    Course     @relation(fields: [courseId], references: [id])
+  courseId  String
+  comments  Comment[]
+  reactions Reaction[]
+}
+
+// Server Action
+model Comment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content   String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+}
+
+// Server Action
+model Reaction {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  type      String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
 }

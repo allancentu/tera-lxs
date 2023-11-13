@@ -35,3 +35,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# not ready pages
+/src/app/platform/course/[id]/page.jsx
+/src/app/platform/course/[id]/mural/
+/src/app/platform/course/[id]/class/layout.jsx
+/src/app/platform/course/[id]/class/[id]/page.jsx
+/src/app/platform/error.jsx
+/src/app/platform/layout.jsx
+/src/app/platform/page.jsx
+/src/app/layout.jsx
+/src/app/page.jsx
