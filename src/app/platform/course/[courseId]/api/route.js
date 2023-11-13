@@ -1,4 +1,3 @@
-import prisma from "@/lib/prisma"
 import { readCourse, editCourse, deleteCourse } from "@/lib/data"
 import { NextRequest, NextResponse } from "next/server";
   
