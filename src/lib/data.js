@@ -1,8 +1,8 @@
 import prisma from "@/lib/prisma";
 
 // User an profile entities
-export async function createStudent(data) {
-    const data = data
+export async function createStudent(info) {
+    const data = info
 
     try {
         const student = prisma.user.create({
@@ -22,8 +22,8 @@ export async function createStudent(data) {
     }
 }
 
-export async function createProfile(data) {
-    const data = data
+export async function createProfile(info) {
+    const data = info
 
     try {
         const profile = prisma.profile.create({
@@ -52,7 +52,9 @@ export async function createProfile(data) {
     }
 }
 
-export async function readProfile() {
+export async function readProfile(info) {
+    const data = info
+
     try {
         const profile = prisma.profile.findUniqueOrThrow({
             where: {
@@ -85,8 +87,8 @@ export async function readProfile() {
     }
 }
 
-export async function readAllProfiles(data) {
-    const data = data
+export async function readAllProfiles(info) {
+    const data = info
 
     try {
         const profiles = prisma.profile.findMany({
@@ -112,8 +114,8 @@ export async function readAllProfiles(data) {
     }
 }
 
-export async function editProfile(data) {
-    const data = data
+export async function editProfile(info) {
+    const data = info
 
     try {
         const profile = prisma.profile.update({
@@ -137,8 +139,8 @@ export async function editProfile(data) {
 }
 
 // Course entity
-export async function createCourse(data) {
-    const data = data
+export async function createCourse(info) {
+    const data = info
 
     try {
         const course = prisma.course.create({
@@ -161,7 +163,9 @@ export async function createCourse(data) {
     }
 }
 
-export async function readCourse() {
+export async function readCourse(info) {
+    const data = info
+
     try {
         const course = prisma.course.findUniqueOrThrow({
             where: {
@@ -187,8 +191,8 @@ export async function readCourse() {
     }
 }
 
-export async function readAllCourses(data) {
-    const data = data
+export async function readAllCourses(info) {
+    const data = info
 
     try {
         const courses = prisma.course.findMany({
@@ -209,8 +213,8 @@ export async function readAllCourses(data) {
     }
 }
 
-export async function editCourse(data) {
-    const data = data
+export async function editCourse(info) {
+    const data = info
 
     try {
         const course = prisma.course.update({
@@ -232,8 +236,8 @@ export async function editCourse(data) {
     }
 }
 
-export async function deleteCourse(data) {
-    const data = data
+export async function deleteCourse(info) {
+    const data = info
 
     try {
         const course = prisma.course.delete({
@@ -250,8 +254,8 @@ export async function deleteCourse(data) {
 }
 
 // Module entity
-export async function createModule(data) {
-    const data = data
+export async function createModule(info) {
+    const data = info
 
     try {
         const module = prisma.module.create({
@@ -278,7 +282,9 @@ export async function createModule(data) {
     }
 }
 
-export async function readModule() {
+export async function readModule(info) {
+    const data = info
+
     try {
         const module = prisma.module.findUniqueOrThrow({
             where: {
@@ -303,8 +309,8 @@ export async function readModule() {
     }
 }
 
-export async function readAllModules(data) {
-    const data = data
+export async function readAllModules(info) {
+    const data = info
 
     try {
         const modules = prisma.module.findMany({
@@ -329,8 +335,8 @@ export async function readAllModules(data) {
     }
 }
 
-export async function editModule(data) {
-    const data = data
+export async function editModule(info) {
+    const data = info
 
     try {
         const module = prisma.module.update({
@@ -351,8 +357,8 @@ export async function editModule(data) {
     }
 }
 
-export async function deleteModule(data) {
-    const data = data
+export async function deleteModule(info) {
+    const data = info
 
     try {
         const module = prisma.module.delete({
@@ -369,8 +375,8 @@ export async function deleteModule(data) {
 }
 
 // Class entity
-export async function createClass(data) {
-    const data = data
+export async function createClass(info) {
+    const data = info
 
     try {
         const platformClass = prisma.class.create({
@@ -400,7 +406,9 @@ export async function createClass(data) {
     }
 }
 
-export async function readClass() {
+export async function readClass(info) {
+    const data = info
+
     try {
         const platformClass = prisma.class.findUniqueOrThrow({
             where: {
@@ -427,8 +435,8 @@ export async function readClass() {
     }
 }
 
-export async function readAllClasses(data) {
-    const data = data
+export async function readAllClasses(info) {
+    const data = info
 
     try {
         const platformClasses = prisma.class.findMany({
@@ -453,8 +461,8 @@ export async function readAllClasses(data) {
     }
 }
 
-export async function editClass(data) {
-    const data = data
+export async function editClass(info) {
+    const data = info
 
     try {
         const platformClass = prisma.class.update({
@@ -478,8 +486,8 @@ export async function editClass(data) {
     }
 }
 
-export async function deleteClass(data) {
-    const data = data
+export async function deleteClass(info) {
+    const data = info
 
     try {
         const platformClass = prisma.class.delete({
