@@ -37,10 +37,7 @@ yarn-error.log*
 next-env.d.ts
 
 # not ready pages
-/src/app/platform/course/[id]/page.jsx
-/src/app/platform/course/[id]/mural/
-/src/app/platform/course/[id]/class/layout.jsx
-/src/app/platform/course/[id]/class/[id]/page.jsx
+/src/app/platform/course/[id]/
 /src/app/platform/error.jsx
 /src/app/platform/layout.jsx
 /src/app/platform/page.jsx
