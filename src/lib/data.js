@@ -139,9 +139,7 @@ export async function editProfile(info) {
 }
 
 // Course entity
-export async function createCourse(info) {
-    const data = info
-
+export async function createCourse(data) {
     try {
         const course = prisma.course.create({
             data: {
