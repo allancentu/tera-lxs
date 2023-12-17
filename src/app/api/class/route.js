@@ -24,9 +24,12 @@ export async function GET(req) {
     const url = new URL(req.url);
     const searchParams = new URLSearchParams(url.search);
 
-    const page = searchParams.get("page");
+    const info = {
+      page: searchParams.get("page"),
+      module: searchParams.get("module"),
+    };
 
-    const result = await readAllClasses(page);
+    const result = await readAllClasses(info);
 
     return NextResponse.json(result);
   } catch (error) {

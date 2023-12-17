@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
 export const metadata = {
-  title: 'Mantine Next.js template',
-  description: 'I am using Mantine with Next.js!',
+  title: "API: Plataforma de Ensino",
+  description: "Projeto do curso de Fullstack Development da Tera",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      {children}
+      <body>{children}</body>
     </html>
   );
 }

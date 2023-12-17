@@ -43,6 +43,11 @@ export async function readAllStudents(data) {
       updatedAt: true,
       email: true,
     },
+    orderBy: [
+      {
+        createdAt: "asc",
+      },
+    ],
   });
 
   return students;
@@ -122,6 +127,11 @@ export async function readAllCourses(data) {
       updatedAt: true,
       title: true,
     },
+    orderBy: [
+      {
+        createdAt: "asc",
+      },
+    ],
   });
 
   return courses;
@@ -191,30 +201,63 @@ export async function readModule(data) {
 }
 
 export async function readAllModules(data) {
-  const page = parseInt(data);
+  const course = data.course;
+  const page = parseInt(data.page);
   const skip = page === 1 ? 0 : (page - 1) * 10;
 
   const query = {
     skip: skip,
     take: 10,
+    course: course,
   };
 
-  const modules = prisma.module.findMany({
-    skip: query.skip,
-    take: query.take,
-    select: {
-      id: true,
-      courseId: true,
-      createdAt: true,
-      updatedAt: true,
-      title: true,
-    },
-  });
-
-  return modules;
+  if (!!course) {
+    const modules = prisma.module.findMany({
+      skip: query.skip,
+      take: query.take,
+      where: {
+        courseId: query.course,
+      },
+      select: {
+        id: true,
+        courseId: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+      },
+      orderBy: [
+        {
+          courseId: "asc",
+        },
+        {
+          order: "asc",
+        },
+      ],
+    });
+    return modules;
+  } else {
+    const modules = prisma.module.findMany({
+      skip: query.skip,
+      take: query.take,
+      select: {
+        id: true,
+        courseId: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+      },
+      orderBy: [
+        {
+          courseId: "asc",
+        },
+        {
+          order: "asc",
+        },
+      ],
+    });
+    return modules;
+  }
 }
-
-// readModulesByCourse
 
 export async function editModule(data) {
   const module = prisma.module.update({
@@ -297,30 +340,65 @@ export async function readClass(data) {
 }
 
 export async function readAllClasses(data) {
-  const page = parseInt(data);
+  const module = data.module;
+  const page = parseInt(data.page);
   const skip = page === 1 ? 0 : (page - 1) * 10;
 
   const query = {
     skip: skip,
     take: 10,
+    module: module,
   };
 
-  const platformClasses = prisma.class.findMany({
-    skip: query.skip,
-    take: query.take,
-    select: {
-      id: true,
-      moduleId: true,
-      createdAt: true,
-      updatedAt: true,
-      title: true,
-    },
-  });
+  if (!!module) {
+    const platformClasses = prisma.class.findMany({
+      skip: query.skip,
+      take: query.take,
+      where: {
+        moduleId: query.module,
+      },
+      select: {
+        id: true,
+        moduleId: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+      },
+      orderBy: [
+        {
+          moduleId: "asc",
+        },
+        {
+          order: "asc",
+        },
+      ],
+    });
 
-  return platformClasses;
+    return platformClasses;
+  } else {
+    const platformClasses = prisma.class.findMany({
+      skip: query.skip,
+      take: query.take,
+      select: {
+        id: true,
+        moduleId: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+      },
+      orderBy: [
+        {
+          moduleId: "asc",
+        },
+        {
+          order: "asc",
+        },
+      ],
+    });
+
+    return platformClasses;
+  }
 }
-
-// readClassesByModule
 
 export async function editClass(data) {
   const platformClass = prisma.class.update({
@@ -392,31 +470,118 @@ export async function readEnrollment(data) {
 }
 
 export async function readAllEnrollments(data) {
-  const page = parseInt(data);
+  const course = data.course;
+  const student = data.student;
+  const page = parseInt(data.page);
   const skip = page === 1 ? 0 : (page - 1) * 10;
 
   const query = {
     skip: skip,
     take: 10,
+    course: course,
+    student: student,
   };
 
-  const enrollments = prisma.enrollment.findMany({
-    skip: query.skip,
-    take: query.take,
-    select: {
-      id: true,
-      createdAt: true,
-      updatedAt: true,
-      course: true,
-      user: true,
-    },
-  });
+  if (!!course && !!student) {
+    const enrollments = prisma.enrollment.findMany({
+      skip: query.skip,
+      take: query.take,
+      where: {
+        courseId: query.course,
+        userId: query.student,
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        course: true,
+        user: true,
+      },
+      orderBy: [
+        {
+          courseId: "asc",
+        },
+        {
+          userId: "asc",
+        },
+      ],
+    });
 
-  return enrollments;
+    return enrollments;
+  } else if (!!course) {
+    const enrollments = prisma.enrollment.findMany({
+      skip: query.skip,
+      take: query.take,
+      where: {
+        courseId: query.course,
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        course: true,
+        user: true,
+      },
+      orderBy: [
+        {
+          courseId: "asc",
+        },
+        {
+          userId: "asc",
+        },
+      ],
+    });
+
+    return enrollments;
+  } else if (!!student) {
+    const enrollments = prisma.enrollment.findMany({
+      skip: query.skip,
+      take: query.take,
+      where: {
+        userId: query.student,
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        course: true,
+        user: true,
+      },
+      orderBy: [
+        {
+          courseId: "asc",
+        },
+        {
+          userId: "asc",
+        },
+      ],
+    });
+
+    return enrollments;
+  } else {
+    const enrollments = prisma.enrollment.findMany({
+      skip: query.skip,
+      take: query.take,
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        course: true,
+        user: true,
+      },
+      orderBy: [
+        {
+          courseId: "asc",
+        },
+        {
+          userId: "asc",
+        },
+      ],
+    });
+
+    return enrollments;
+  }
 }
-
-// readEnrollmentsByUser
-// readEnrollmentsByCourse
 
 export async function editEnrollment(data) {
   const enrollment = prisma.enrollment.update({
