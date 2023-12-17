@@ -1,502 +1,443 @@
 import prisma from "@/lib/prisma";
 
-// User an profile entities
-export async function createStudent(info) {
-    const data = info
-
-    try {
-        const student = prisma.user.create({
-            data: {
-                user: {
-                    create: {
-                        email: data.email,
-                        name: data.name
-                    }
-                }
-            }
-        })
-        return(student)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+// User entity
+export async function createStudent(data) {
+  const student = prisma.user.create({
+    data: {
+      email: data.email,
+      name: data.name,
+    },
+  });
+  return student;
 }
 
-export async function createProfile(info) {
-    const data = info
+export async function readStudent(data) {
+  const student = prisma.user.findUniqueOrThrow({
+    where: {
+      id: data.id,
+    },
+    select: {
+      email: true,
+      name: true,
+    },
+  });
 
-    try {
-        const profile = prisma.profile.create({
-            data: {
-                profile: {
-                    create: {
-                        description: data.description,
-                        currentCompany: data.currentCompany,
-                        currentRole: data.currentRole,
-                        linkedinUrl: data.linkedinUrl,
-                        profilePicture: data.profilePicture
-                    }
-                },
-                user: {
-                    connect: {
-                        id: data.userId
-                    }
-                }
-            }
-        })
-
-        return(profile)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return student;
 }
 
-export async function readProfile(info) {
-    const data = info
+export async function readAllStudents(data) {
+  const page = parseInt(data);
+  const skip = page === 1 ? 0 : (page - 1) * 10;
 
-    try {
-        const profile = prisma.profile.findUniqueOrThrow({
-            where: {
-                id: data.id,
-              },
-            select: {
-                id: true,
-                userId: true,
-                createdAt: true,
-                updatedAt: true,
-                description: true,
-                currentCompany: true,
-                currentRole: true,
-                linkedinUrl: true,
-                profilePicture: true,
-                user: {
-                    select: {
-                        email: true,
-                        name: true,
-                        enrollments: true
-                    }
-                }
-            }
-        })
+  const query = {
+    skip: skip,
+    take: 10,
+  };
 
-        return(profile)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  const students = prisma.user.findMany({
+    skip: query.skip,
+    take: query.take,
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      email: true,
+    },
+  });
+
+  return students;
 }
 
-export async function readAllProfiles(info) {
-    const data = info
+export async function editStudent(data) {
+  const student = prisma.user.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      email: data.email,
+      name: data.name,
+    },
+  });
 
-    try {
-        const profiles = prisma.profile.findMany({
-            skip: data.skip,
-            take: data.take,
-            select: {
-                id: true,
-                userId: true,
-                createdAt: true,
-                updatedAt: true,
-                user: {
-                    select: {
-                        email: true
-                    }
-                }
-            }
-        })
-
-        return(profiles)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return student;
 }
 
-export async function editProfile(info) {
-    const data = info
+export async function deleteStudent(data) {
+  const student = prisma.user.delete({
+    where: {
+      id: data.id,
+    },
+  });
 
-    try {
-        const profile = prisma.profile.update({
-            where: {
-                id: data.id,
-              },
-              data: {
-                description: data.description,
-                currentCompany: data.currentCompany,
-                currentRole: data.currentRole,
-                linkedinUrl: data.linkedinUrl,
-                profilePicture: data.profilePicture
-              },
-        })
-
-        return(profile)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return student;
 }
 
 // Course entity
 export async function createCourse(data) {
-    try {
-        const course = prisma.course.create({
-            data: {
-                course: {
-                    create: {
-                        title: data.title,
-                        description: data.description,
-                        color: data.color,
-                        type: data.type
-                    }
-                }
-            }
-        })
+  const course = prisma.course.create({
+    data: {
+      title: data.title,
+      description: data.description,
+      color: data.color,
+    },
+  });
 
-        return(course)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return course;
 }
 
-export async function readCourse(info) {
-    const data = info
+export async function readCourse(data) {
+  const course = prisma.course.findUniqueOrThrow({
+    where: {
+      id: data.id,
+    },
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      title: true,
+      description: true,
+      color: true,
+      modules: true,
+    },
+  });
 
-    try {
-        const course = prisma.course.findUniqueOrThrow({
-            where: {
-                id: data.id,
-              },
-            select: {
-                id: true,
-                createdAt: true,
-                updatedAt: true,
-                title: true,
-                description: true,
-                color: true,
-                type: true,
-                modules: true,
-                cohorts: true,
-            }
-        })
-
-        return(course)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return course;
 }
 
-export async function readAllCourses(info) {
-    const data = info
+export async function readAllCourses(data) {
+  const page = parseInt(data);
+  const skip = page === 1 ? 0 : (page - 1) * 10;
 
-    try {
-        const courses = prisma.course.findMany({
-            skip: data.skip,
-            take: data.take,
-            select: {
-                id: true,
-                createdAt: true,
-                updatedAt: true,
-                title: true
-            }
-        })
+  const query = {
+    skip: skip,
+    take: 10,
+  };
 
-        return(courses)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  const courses = prisma.course.findMany({
+    skip: query.skip,
+    take: query.take,
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      title: true,
+    },
+  });
+
+  return courses;
 }
 
-export async function editCourse(info) {
-    const data = info
+export async function editCourse(data) {
+  const course = prisma.course.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      title: data.title,
+      description: data.description,
+      color: data.color,
+    },
+  });
 
-    try {
-        const course = prisma.course.update({
-            where: {
-                id: data.id,
-              },
-              data: {
-                title: data.title,
-                description: data.description,
-                color: data.color,
-                type: data.type
-              },
-        })
-
-        return(course)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return course;
 }
 
-export async function deleteCourse(info) {
-    const data = info
+export async function deleteCourse(data) {
+  const course = prisma.course.delete({
+    where: {
+      id: data.id,
+    },
+  });
 
-    try {
-        const course = prisma.course.delete({
-            where: {
-                id: data.id,
-              }
-        })
-
-        return(course)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return course;
 }
 
 // Module entity
-export async function createModule(info) {
-    const data = info
+export async function createModule(data) {
+  const module = prisma.module.create({
+    data: {
+      title: data.title,
+      description: data.description,
+      order: data.order,
+      course: {
+        connect: {
+          id: data.courseId,
+        },
+      },
+    },
+  });
 
-    try {
-        const module = prisma.module.create({
-            data: {
-                module: {
-                    create: {
-                        title: data.title,
-                        description: data.description,
-                        order: data.order
-                    }
-                },
-                course: {
-                    connect: {
-                        id: data.courseId
-                    }
-                }
-            }
-        })
-
-        return(module)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return module;
 }
 
-export async function readModule(info) {
-    const data = info
+export async function readModule(data) {
+  const module = prisma.module.findUniqueOrThrow({
+    where: {
+      id: data.id,
+    },
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      title: true,
+      description: true,
+      order: true,
+      course: true,
+      classes: true,
+    },
+  });
 
-    try {
-        const module = prisma.module.findUniqueOrThrow({
-            where: {
-                id: data.id,
-              },
-            select: {
-                id: true,
-                createdAt: true,
-                updatedAt: true,
-                title: true,
-                description: true,
-                order: true,
-                course: true,
-                classes: true
-            }
-        })
-
-        return(module)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return module;
 }
 
-export async function readAllModules(info) {
-    const data = info
+export async function readAllModules(data) {
+  const page = parseInt(data);
+  const skip = page === 1 ? 0 : (page - 1) * 10;
 
-    try {
-        const modules = prisma.module.findMany({
-            skip: data.skip,
-            take: data.take,
-            where: {
-                courseId: data.courseId
-            },
-            select: {
-                id: true,
-                courseId: true,
-                createdAt: true,
-                updatedAt: true,
-                title: true
-            }
-        })
+  const query = {
+    skip: skip,
+    take: 10,
+  };
 
-        return(modules)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  const modules = prisma.module.findMany({
+    skip: query.skip,
+    take: query.take,
+    select: {
+      id: true,
+      courseId: true,
+      createdAt: true,
+      updatedAt: true,
+      title: true,
+    },
+  });
+
+  return modules;
 }
 
-export async function editModule(info) {
-    const data = info
+// readModulesByCourse
 
-    try {
-        const module = prisma.module.update({
-            where: {
-                id: data.id,
-              },
-              data: {
-                title: data.title,
-                description: data.description,
-                order: data.order
-              },
-        })
+export async function editModule(data) {
+  const module = prisma.module.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      title: data.title,
+      description: data.description,
+      order: data.order,
+    },
+  });
 
-        return(module)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return module;
 }
 
-export async function deleteModule(info) {
-    const data = info
+export async function deleteModule(data) {
+  const module = prisma.module.delete({
+    where: {
+      id: data.id,
+    },
+  });
 
-    try {
-        const module = prisma.module.delete({
-            where: {
-                id: data.id,
-              }
-        })
-
-        return(module)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return module;
 }
 
 // Class entity
-export async function createClass(info) {
-    const data = info
+export async function createClass(data) {
+  const platformClass = prisma.class.create({
+    data: {
+      class: {
+        create: {
+          title: data.title,
+          description: data.description,
+          video: data.video,
+          content: data.content,
+          order: data.order,
+          teacherName: data.teacherName,
+          teacherCompany: data.teacherCompany,
+          teacherRole: data.teacherRole,
+          teacherLinkedin: data.teacherLinkedIn,
+          teacherPicture: data.teacherPicture,
+        },
+        module: {
+          connect: {
+            id: data.moduleId,
+          },
+        },
+      },
+    },
+  });
 
-    try {
-        const platformClass = prisma.class.create({
-            data: {
-                class: {
-                    create: {
-                        title: data.title,
-                        description: data.description,
-                        type: data.type,
-                        video: data.video, 
-                        content: data.content,
-                        order: data.order,
-                    }
-                },
-                module: {
-                    connect: {
-                        id: data.moduleId
-                    }
-                }
-            }
-        })
-
-        return(platformClass)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return platformClass;
 }
 
-export async function readClass(info) {
-    const data = info
+export async function readClass(data) {
+  const platformClass = prisma.class.findUniqueOrThrow({
+    where: {
+      id: data.id,
+    },
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      title: true,
+      description: true,
+      video: true,
+      content: true,
+      order: true,
+      teacherName: true,
+      teacherCompany: true,
+      teacherRole: true,
+      teacherLinkedIn: true,
+      teacherPicture: true,
+      module: true,
+    },
+  });
 
-    try {
-        const platformClass = prisma.class.findUniqueOrThrow({
-            where: {
-                id: data.id,
-              },
-            select: {
-                id: true,
-                createdAt: true,
-                updatedAt: true,
-                title: true,
-                description: true,
-                type: true,
-                video: true,
-                content: true,
-                order: true,
-                moduleId: true
-            }
-        })
-
-        return(platformClass)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return platformClass;
 }
 
-export async function readAllClasses(info) {
-    const data = info
+export async function readAllClasses(data) {
+  const page = parseInt(data);
+  const skip = page === 1 ? 0 : (page - 1) * 10;
 
-    try {
-        const platformClasses = prisma.class.findMany({
-            skip: data.skip,
-            take: data.take,
-            where: {
-                moduleId: data.moduleId
-            },
-            select: {
-                id: true,
-                moduleId: true,
-                createdAt: true,
-                updatedAt: true,
-                title: true
-            }
-        })
+  const query = {
+    skip: skip,
+    take: 10,
+  };
 
-        return(platformClasses)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  const platformClasses = prisma.class.findMany({
+    skip: query.skip,
+    take: query.take,
+    select: {
+      id: true,
+      moduleId: true,
+      createdAt: true,
+      updatedAt: true,
+      title: true,
+    },
+  });
+
+  return platformClasses;
 }
 
-export async function editClass(info) {
-    const data = info
+// readClassesByModule
 
-    try {
-        const platformClass = prisma.class.update({
-            where: {
-                id: data.id,
-              },
-              data: {
-                title: data.title,
-                description: data.description,
-                type: data.type,
-                video: data.video,
-                content: data.content,
-                order: data.order
-              },
-        })
+export async function editClass(data) {
+  const platformClass = prisma.class.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      title: data.title,
+      description: data.description,
+      video: data.video,
+      content: data.content,
+      order: data.order,
+      teacherName: data.teacherName,
+      teacherCompany: data.teacherCompany,
+      teacherRole: data.teacherRole,
+      teacherLinkedin: data.teacherLinkedIn,
+      teacherPicture: data.teacherPicture,
+    },
+  });
 
-        return(platformClass)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+  return platformClass;
 }
 
-export async function deleteClass(info) {
-    const data = info
+export async function deleteClass(data) {
+  const platformClass = prisma.class.delete({
+    where: {
+      id: data.id,
+    },
+  });
 
-    try {
-        const platformClass = prisma.class.delete({
-            where: {
-                id: data.id,
-              }
-        })
+  return platformClass;
+}
 
-        return(platformClass)
-    } catch (error) {
-        console.log(error.message);
-        return(error);
-    }
+// Enrollment entity
+export async function createEnrollment(data) {
+  const enrollment = prisma.enrollment.create({
+    data: {
+      course: {
+        connect: {
+          id: data.courseId,
+        },
+      },
+      user: {
+        connect: {
+          id: data.studentId,
+        },
+      },
+    },
+  });
+
+  return enrollment;
+}
+
+export async function readEnrollment(data) {
+  const enrollment = prisma.enrollment.findUniqueOrThrow({
+    where: {
+      id: data.id,
+    },
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      course: true,
+      user: true,
+    },
+  });
+
+  return enrollment;
+}
+
+export async function readAllEnrollments(data) {
+  const page = parseInt(data);
+  const skip = page === 1 ? 0 : (page - 1) * 10;
+
+  const query = {
+    skip: skip,
+    take: 10,
+  };
+
+  const enrollments = prisma.enrollment.findMany({
+    skip: query.skip,
+    take: query.take,
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      course: true,
+      user: true,
+    },
+  });
+
+  return enrollments;
+}
+
+// readEnrollmentsByUser
+// readEnrollmentsByCourse
+
+export async function editEnrollment(data) {
+  const enrollment = prisma.enrollment.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      userId: data.userId,
+      courseId: data.courseId,
+    },
+  });
+
+  return enrollment;
+}
+
+export async function deleteEnrollment(data) {
+  const enrollment = prisma.enrollment.delete({
+    where: {
+      id: data.id,
+    },
+  });
+
+  return enrollment;
 }

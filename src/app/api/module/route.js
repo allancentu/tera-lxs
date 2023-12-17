@@ -1,10 +1,10 @@
-import { createCourse, readAllCourses } from "@/lib/data";
+import { createModule, readAllModules } from "@/lib/data";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
-    const newCourse = await req.json();
-    const result = await createCourse(newCourse);
+    const newModule = await req.json();
+    const result = await createModule(newModule);
 
     return NextResponse.json(result);
   } catch (error) {
@@ -26,7 +26,7 @@ export async function GET(req) {
 
     const page = searchParams.get("page");
 
-    const result = await readAllCourses(page);
+    const result = await readAllModules(page);
 
     return NextResponse.json(result);
   } catch (error) {

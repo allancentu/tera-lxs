@@ -9,29 +9,12 @@ datasource db {
 }
 
 model User {
-  id          String      @id @default(uuid())
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  email       String      @unique
+  id          String       @id @default(uuid())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  email       String       @unique
   name        String
-  comments    Comment[]
-  enrollments Enrollment?
-  posts       Post[]
-  profile     Profile?
-  reactions   Reaction[]
-}
-
-model Profile {
-  id             String   @id @default(uuid())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  description    String
-  currentCompany String
-  currentRole    String
-  linkedinUrl    String
-  profilePicture String
-  userId         String   @unique
-  user           User     @relation(fields: [userId], references: [id])
+  enrollments Enrollment[]
 }
 
 model Course {
@@ -41,11 +24,8 @@ model Course {
   title       String
   description String
   color       String
-  type        String
-  cohorts     Cohort[]
   enrollments Enrollment[]
   modules     Module[]
-  posts       Post[]
 }
 
 model Module {
@@ -55,108 +35,35 @@ model Module {
   title       String
   description String
   order       Int
+  course      Course   @relation(fields: [courseId], references: [id])
   courseId    String
   classes     Class[]
-  course      Course   @relation(fields: [courseId], references: [id])
 }
 
 model Class {
-  id          String     @id @default(uuid())
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  title       String
-  description String
-  type        String
-  video       String?
-  content     String
-  order       Int
-  moduleId    String
-  module      Module     @relation(fields: [moduleId], references: [id])
-  schedules   Schedule[]
-}
-
-model Cohort {
-  id          String       @id @default(uuid())
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  title       String
-  startDate   DateTime
-  endDate     DateTime
-  courseId    String
-  course      Course       @relation(fields: [courseId], references: [id])
-  enrollments Enrollment[]
-  schedule    Schedule[]
-}
-
-model Teacher {
-  id             String     @id @default(uuid())
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-  name           String
-  currentCompany String
-  currentRole    String
-  linkedinUrl    String
-  profilePicture String
-  classes        Schedule[]
-}
-
-model Schedule {
-  id           String   @id @default(uuid())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  scheduleDate DateTime
-  classUrl     String
-  teacherId    String
-  cohortId     String
-  classId      String
-  class        Class    @relation(fields: [classId], references: [id])
-  cohort       Cohort   @relation(fields: [cohortId], references: [id])
-  teacher      Teacher  @relation(fields: [teacherId], references: [id])
+  id              String   @id @default(uuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  title           String
+  description     String
+  video           String?
+  content         String
+  order           Int
+  teacherName     String
+  teacherCompany  String
+  teacherRole     String
+  teacherLinkedin String
+  teacherPicture  String
+  module          Module   @relation(fields: [moduleId], references: [id])
+  moduleId        String
 }
 
 model Enrollment {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId    String   @unique
-  courseId  String
-  cohortId  String
-  cohort    Cohort   @relation(fields: [cohortId], references: [id])
   course    Course   @relation(fields: [courseId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
-}
-
-model Post {
-  id        String     @id @default(uuid())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  content   String
-  authorId  String
   courseId  String
-  comments  Comment[]
-  author    User       @relation(fields: [authorId], references: [id])
-  course    Course     @relation(fields: [courseId], references: [id])
-  reactions Reaction[]
-}
-
-model Comment {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  content   String
-  authorId  String
-  postId    String
-  author    User     @relation(fields: [authorId], references: [id])
-  post      Post     @relation(fields: [postId], references: [id])
-}
-
-model Reaction {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  type      String
-  authorId  String
-  postId    String
-  author    User     @relation(fields: [authorId], references: [id])
-  post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
 }

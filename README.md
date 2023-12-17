@@ -1,36 +1,24 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Bem-vindo ao repositório do meu projeto de conclusão do curso de Fullstack Development da Tera (turma DFSBC-2023-4). Construí uma API que servirá como back-end para uma plataforma de ensino, cobrindo as entidades aluno, curso, módulo, aula e matrícula. Abaixo apresentarei a stack utilizada, o modelo de dados do sistema e os endpoints que podem ser testados.
 
-## Getting Started
+## Stack e estrutura do projeto
 
-First, run the development server:
+O projeto foi construído em [NextJS 14](https://nextjs.org/blog/next-14), já utilizando o novo [App Router](https://nextjs.org/docs/app) e os [Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers). Como ORM, foi utilizado o [Prisma](https://www.prisma.io/) e o deploy foi feito na [Vercel](https://vercel.com/) utilizando [serverless functions](https://vercel.com/docs/functions/serverless-functions) e o [Postgres gerenciado da plataforma](https://vercel.com/storage/postgres).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+O projeto está organizado em duas pastas principais. Na pasta `prisma`, é possível checar o modelo de dados implementado, enquanto na pasta `src` está o código da aplicação. Dentro de `src`, a pasta `lib` armazena funções que interagem com o banco de dados e a pasta `app` armazena a implementação da API em si.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Modelo de dados
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+(TBD)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Endpoints disponíveis
 
-## Learn More
+- `/student/` (e `/student/{id}`): permitem interagir com a entidade de alunos. O endpoint principal permite o método `POST` para criar novos alunos e o método `GET` para listar todos os alunos. O metódo `GET` é paginado (dez em dez itens) e a página desejada deve ser passada como parâmetro na chamada (exemplo: `/student?page=1`). O endpoint com `{id}` permite o método `PATCH` para editar um aluno específico, o método `GET` para ver informações detalhadas de um aluno específico e o método `DELETE` para remover um aluno específico do banco de dados.
+- `/course/` (e `/course/{id}`): permitem interagir com a entidade de cursos. O endpoint principal permite o método `POST` para criar novos cursos e o método `GET` para listar todos os cursos. O metódo `GET` é paginado (dez em dez itens) e a página desejada deve ser passada como parâmetro na chamada (exemplo: `/course?page=1`). O endpoint com `{id}` permite o método `PATCH` para editar um curso específico, o método `GET` para ver informações detalhadas de um curso específico e o método `DELETE` para remover um curso específico do banco de dados.
+- `/module/` (e `/module/{id}`): permitem interagir com a entidade de módulos (ligada a cursos). O endpoint principal permite o método `POST` para criar novos módulos em um curso e o método `GET` para listar todos os módulos da plataforma ou apenas os módulos de um curso específico. O metódo `GET` é paginado (dez em dez itens) e a página desejada deve ser passada como parâmetro na chamada (exemplo: `/module?page=1`). Caso queira ver todos os módulos de um curso específico, seu id também deve ser passado como parâmetro na chamada `GET` ((exemplo: `/module?course={id}`)). O endpoint com `{id}` permite o método `PATCH` para editar um módulo específico, o método `GET` para ver informações detalhadas de um módulo específico e o método `DELETE` para remover um módulo específico do banco de dados.
+- `/class/` (e `/class/{id}`): permitem interagir com a entidade de aulas (ligada a cursos e módulos). O endpoint principal permite o método `POST` para criar novas aulas em um módulo e o método `GET` para listar todas as asulas da plataforma ou apenas as aulas de um curso ou módulo específicos. O metódo `GET` é paginado (dez em dez itens) e a página desejada deve ser passada como parâmetro na chamada (exemplo: `/class?page=1`). Caso queira ver todas as aulas de um curso ou módulo específico, seu id também deve ser passado como parâmetro na chamada `GET` ((exemplos: `/class?course={id}` ou `/class?module={id}`)). O endpoint com `{id}` permite o método `PATCH` para editar uma aula específica, o método `GET` para ver informações detalhadas de uma aula específica e o método `DELETE` para remover uma aula específica do banco de dados.
+- `/enrollment/` (e `/enrollment/{id}`): permitem interagir com a entidade de matrículas (relacionamento M:N entre alunos e cursos). O endpoint principal permite o método `POST` para criar novas matrículas e o método `GET` para listar todas as matrículas da plataforma ou apenas as matrículas de um curso ou aluno específicos. O metódo `GET` é paginado (dez em dez itens) e a página desejada deve ser passada como parâmetro na chamada (exemplo: `/enrollment?page=1`). Caso queira ver todas as matrículas de um curso ou aluno específico, seu id também deve ser passado como parâmetro na chamada `GET` ((exemplos: `/enrollment?course={id}` ou `/enrollment?student={id}`)). O endpoint com `{id}` permite o método `PATCH` para editar uma matrícula específica, o método `GET` para ver informações detalhadas de uma matrícula específica e o método `DELETE` para remover uma matrícula específica do banco de dados.
 
-To learn more about Next.js, take a look at the following resources:
+## Próximos passos
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Front-end: adicionar UI para interação dos usuários com a API;
+- AuthN e AuthZ: utilizar biblioteca que permita apenas chamadas autenticadas e autorizadas na API.
