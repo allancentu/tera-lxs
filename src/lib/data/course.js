@@ -36,7 +36,7 @@ export async function readAllCourses(data) {
   const skip = page === 1 ? 0 : (page - 1) * 10;
 
   const query = {
-    skip: skip,
+    skip: skip ? skip : 0,
     take: 10,
   };
 
