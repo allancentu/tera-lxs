@@ -1,4 +1,8 @@
-import { editEnrollment, readEnrollment, deleteEnrollment } from "@/lib/data";
+import {
+  editEnrollment,
+  readEnrollment,
+  deleteEnrollment,
+} from "@/lib/data/enrollment";
 import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {

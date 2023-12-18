@@ -1,4 +1,4 @@
-import { createModule, readAllModules } from "@/lib/data";
+import { createModule, readAllModules } from "@/lib/data/module";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {

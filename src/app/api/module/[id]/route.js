@@ -1,4 +1,4 @@
-import { editModule, readModule, deleteModule } from "@/lib/data";
+import { editModule, readModule, deleteModule } from "@/lib/data/module";
 import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {

@@ -1,4 +1,4 @@
-import { editCourse, readCourse, deleteCourse } from "@/lib/data";
+import { editCourse, readCourse, deleteCourse } from "@/lib/data/course";
 import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {

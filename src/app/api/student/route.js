@@ -1,4 +1,4 @@
-import { createStudent, readAllStudents } from "@/lib/data";
+import { createStudent, readAllStudents } from "@/lib/data/student";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
