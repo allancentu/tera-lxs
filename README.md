@@ -6,9 +6,9 @@ O projeto foi construído em [NextJS 14](https://nextjs.org/blog/next-14), já u
 
 O projeto está organizado em duas pastas principais. Na pasta `prisma`, é possível checar o modelo de dados implementado, enquanto na pasta `src` está o código da aplicação. Dentro de `src`, a pasta `lib` armazena funções que interagem com o banco de dados e a pasta `app` armazena a implementação da API em si.
 
-## Modelo de dados
+## Modelo lógico de dados
 
-(TBD)
+![Modelo lógico do banco de dados](https://github.com/allancentu/tera-lxs/assets/137120036/9b171da2-c0e6-4d2a-b7f5-0aa591eb42ab)
 
 ## Endpoints disponíveis
 
