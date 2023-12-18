@@ -27,7 +27,7 @@ export async function PATCH(req, { params }) {
     const { email, name } = await req.json();
 
     const info = {
-      id: selectedCourse.id,
+      id: selectedStudent.id,
       email: email ? email : currentInfo.email,
       name: name ? name : currentInfo.name,
     };

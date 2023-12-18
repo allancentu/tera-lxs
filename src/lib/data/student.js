@@ -16,8 +16,11 @@ export async function readStudent(data) {
       id: data.id,
     },
     select: {
+      createdAt: true,
+      updatedAt: true,
       email: true,
       name: true,
+      enrollments: true,
     },
   });
 

@@ -61,6 +61,7 @@ export async function readAllModules(data) {
         createdAt: true,
         updatedAt: true,
         title: true,
+        order: true,
       },
       orderBy: [
         {

@@ -3,23 +3,19 @@ import prisma from "@/lib/prisma";
 export async function createClass(data) {
   const platformClass = prisma.class.create({
     data: {
-      class: {
-        create: {
-          title: data.title,
-          description: data.description,
-          video: data.video,
-          content: data.content,
-          order: data.order,
-          teacherName: data.teacherName,
-          teacherCompany: data.teacherCompany,
-          teacherRole: data.teacherRole,
-          teacherLinkedin: data.teacherLinkedIn,
-          teacherPicture: data.teacherPicture,
-        },
-        module: {
-          connect: {
-            id: data.moduleId,
-          },
+      title: data.title,
+      description: data.description,
+      video: data.video,
+      content: data.content,
+      order: data.order,
+      teacherName: data.teacherName,
+      teacherCompany: data.teacherCompany,
+      teacherRole: data.teacherRole,
+      teacherLinkedin: data.teacherLinkedin,
+      teacherPicture: data.teacherPicture,
+      module: {
+        connect: {
+          id: data.moduleId,
         },
       },
     },
@@ -45,7 +41,7 @@ export async function readClass(data) {
       teacherName: true,
       teacherCompany: true,
       teacherRole: true,
-      teacherLinkedIn: true,
+      teacherLinkedin: true,
       teacherPicture: true,
       module: true,
     },
@@ -129,7 +125,7 @@ export async function editClass(data) {
       teacherName: data.teacherName,
       teacherCompany: data.teacherCompany,
       teacherRole: data.teacherRole,
-      teacherLinkedin: data.teacherLinkedIn,
+      teacherLinkedin: data.teacherLinkedin,
       teacherPicture: data.teacherPicture,
     },
   });
