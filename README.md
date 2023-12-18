@@ -12,7 +12,7 @@ O projeto está organizado em duas pastas principais. Na pasta `prisma`, é poss
 
 ## Endpoints disponíveis
 
-Para interagir com a API, recomendo utilizar [essa coleção do Postman](#). Abaixo estão detalhados cada endpoint disponível e os métodos correspondentes. O projeto está disponível em produção [aqui](https://tera-lxs.vercel.app/).
+Para interagir com a API, recomendo utilizar [essa coleção do Postman](https://api.postman.com/collections/28638293-ff8adec0-fc2d-42d8-ab63-7c0e3dd6b562?access_key=PMAT-01HHYHPSK96ZPRCEMS48Z82G3E). Abaixo estão detalhados cada endpoint disponível e os métodos correspondentes. O projeto está disponível em produção [aqui](https://tera-lxs.vercel.app/).
 
 - `/student/` e `/student/{id}`: permitem interagir com a entidade de alunos. O endpoint principal permite o método `POST` para criar novos alunos e o método `GET` para listar todos os alunos. O metódo `GET` é paginado (dez em dez itens) e a página desejada deve ser passada como parâmetro na chamada (exemplo: `/student?page=1`). O endpoint com `{id}` permite o método `PATCH` para editar um aluno específico, o método `GET` para ver informações detalhadas de um aluno específico e o método `DELETE` para remover um aluno específico do banco de dados.
 
